@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\ShortUrl;
+use App\Policies\ShortUrlPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Explicitly register ShortUrlPolicy to enforce ownership authorization.
+        Gate::policy(ShortUrl::class, ShortUrlPolicy::class);
     }
 }
