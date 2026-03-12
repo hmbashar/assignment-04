@@ -21,7 +21,9 @@ class RedirectController extends Controller
         $shortUrl = ShortUrl::where('short_code', $shortCode)->first();
 
         if (!$shortUrl) {
-            abort(404, 'Short URL not found.');
+            return response()->json([
+                'message' => 'Short URL not found.',
+            ], 404);
         }
 
         // Check if the URL has expired

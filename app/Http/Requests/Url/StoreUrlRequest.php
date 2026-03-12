@@ -18,7 +18,7 @@ class StoreUrlRequest extends FormRequest
     {
         return [
             'original_url' => ['required', 'url', 'max:2048'],
-            'expires_at' => ['nullable', 'date', 'after:now'],
+            'expires_at' => ['nullable', 'date'],
         ];
     }
 }

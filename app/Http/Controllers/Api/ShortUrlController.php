@@ -7,13 +7,11 @@ use App\Http\Requests\Url\StoreUrlRequest;
 use App\Http\Requests\Url\UpdateUrlRequest;
 use App\Models\ShortUrl;
 use App\Services\ShortCodeService;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ShortUrlController extends Controller
 {
-    use AuthorizesRequests;
 
     public function __construct(private readonly ShortCodeService $shortCodeService)
     {
@@ -57,7 +55,9 @@ class ShortUrlController extends Controller
      */
     public function show(Request $request, ShortUrl $url): JsonResponse
     {
-        $this->authorize('view', $url);
+        if ($request->user()->cannot('view', $url)) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
+        }
 
         return response()->json([
             'short_url' => $this->formatUrl($url),
@@ -70,7 +70,9 @@ class ShortUrlController extends Controller
      */
     public function update(UpdateUrlRequest $request, ShortUrl $url): JsonResponse
     {
-        $this->authorize('update', $url);
+        if ($request->user()->cannot('update', $url)) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
+        }
 
         $url->update($request->validated());
 
@@ -86,7 +88,9 @@ class ShortUrlController extends Controller
      */
     public function destroy(Request $request, ShortUrl $url): JsonResponse
     {
-        $this->authorize('delete', $url);
+        if ($request->user()->cannot('delete', $url)) {
+            return response()->json(['message' => 'This action is unauthorized.'], 403);
+        }
 
         $url->delete();
 

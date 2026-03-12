@@ -26,7 +26,7 @@ Features:
 | Framework     | Laravel 12                  |
 | Auth          | Laravel Sanctum (API Token) |
 | Database      | SQLite                      |
-| PHP           | 8.2+                        |
+| PHP           | 8.5+                        |
 
 ---
 
